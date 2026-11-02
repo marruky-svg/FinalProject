@@ -1,0 +1,62 @@
+=== Como o PostgreSQL ve cada fase ===
+
+'caus':6 'cftr':4 'cystic':7 'fibrosi':8 'gene':5 'mutat':1
+		<- Mutations in the CFTR gene cause cystic fibrosis.
+'cftr':12 'channel':9 'chlorid':8 'cystic':1 'defect':5 'encod':10 'fibrosi':2 'result':3
+		<- Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+'causam':5 'cftr':4 'fibros':6 'gene':3 'mutaçõ':1 'quística':7
+		<- Mutações no gene CFTR causam fibrose quística.
+'caus':5 'cftr':1 'cystic':6 'fibrosi':7 'mutat':2
+		<- CFTR mutations do not cause cystic fibrosis.
+'brca1':1 'breast':7 'cancer':8 'increas':3 'mutat':2 'risk':5
+		<- BRCA1 mutations increase the risk of breast cancer.
+'brca2':1 'breast':7 'cancer':8 'increas':3 'mutat':2 'risk':5
+		<- BRCA2 mutations increase the risk of breast cancer.
+'cycl':3 'kreb':2 'matrix':9 'mitochondri':8 'nadh':5 'produc':4
+		<- The Krebs cycle produces NADH in the mitochondrial matrix.
+'draw':7 'end':4 'footbal':2 'match':3
+		<- The football match ended in a draw.
+
+=== Pergunta: Which gene is mutated in cystic fibrosis? ===
+Terms of the question: 'gene' & 'mutat' & 'cystic' & 'fibrosi'
+
+ Lexical, AND mode:
+	1. 0.440	Mutations in the CFTR gene cause cystic fibrosis.
+
+ Lexical, OR mode:
+	1. 0.061	Mutations in the CFTR gene cause cystic fibrosis.
+	2. 0.046	CFTR mutations do not cause cystic fibrosis.
+	3. 0.030	Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+	4. 0.015	Mutações no gene CFTR causam fibrose quística.
+	5. 0.015	BRCA1 mutations increase the risk of breast cancer.
+	6. 0.015	BRCA2 mutations increase the risk of breast cancer.
+
+ Densa::
+	1. 0.763	Mutations in the CFTR gene cause cystic fibrosis.
+	2. 0.646	Mutações no gene CFTR causam fibrose quística.
+	3. 0.578	CFTR mutations do not cause cystic fibrosis.
+	4. 0.572	Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+	5. 0.515	BRCA2 mutations increase the risk of breast cancer.
+	6. 0.506	BRCA1 mutations increase the risk of breast cancer.
+	7. 0.414	The Krebs cycle produces NADH in the mitochondrial matrix.
+	8. 0.258	The football match ended in a draw.
+
+=== Pergunta: BRCA1 breast cancer risk ===
+Terms of the question: 'brca1' & 'breast' & 'cancer' & 'risk'
+
+ Lexical, AND mode:
+	1. 0.440	BRCA1 mutations increase the risk of breast cancer.
+
+ Lexical, OR mode:
+	1. 0.061	BRCA1 mutations increase the risk of breast cancer.
+	2. 0.046	BRCA2 mutations increase the risk of breast cancer.
+
+ Densa::
+	1. 0.844	BRCA1 mutations increase the risk of breast cancer.
+	2. 0.768	BRCA2 mutations increase the risk of breast cancer.
+	3. 0.461	Mutations in the CFTR gene cause cystic fibrosis.
+	4. 0.435	Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+	5. 0.430	Mutações no gene CFTR causam fibrose quística.
+	6. 0.413	The Krebs cycle produces NADH in the mitochondrial matrix.
+	7. 0.377	CFTR mutations do not cause cystic fibrosis.
+	8. 0.231	The football match ended in a draw.
