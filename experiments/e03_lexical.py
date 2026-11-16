@@ -5,14 +5,14 @@ from e02_pgvector import create_table, insert, start, search
 
 QUESTIONS = [
 	"Which gene is mutated in cystic fibrosis?",
-	"BRCA1 breast cancer risk",
+	"BRC1 breast cancer risk",
 ]
 
 SQL_MODE_AND = """
 	SELECT content, ts_rank(tsv, plainto_tsquery('english', %s)) AS point
 	FROM phrases
 	WHERE tsv @@ plainto_tsquery('english', %s)
-	ORDER BY point DESC
+	ORDER BY point DESC, id
 	LIMIT %s
 """
 
@@ -23,7 +23,7 @@ SQL_MODE_OR = """
     SELECT content, ts_rank(tsv, q) AS point
     FROM phrases, consulta
     WHERE tsv @@ q
-    ORDER BY point DESC
+    ORDER BY point DESC, id
     LIMIT %s
 """
 
@@ -53,7 +53,7 @@ def lexical_search(conn, question: str, mode: str, k: int = 8) -> list[tuple]:
 def ft_print(title: str, results: list[tuple]) -> None:
 	print(f"\n {title}:")
 	if not results:
-		print("		(no results)")
+		print("	(no results)")
 	for pos, (content, point) in enumerate(results, start=1):
 		print(f"	{pos}. {point:.3f}	{content}")
 

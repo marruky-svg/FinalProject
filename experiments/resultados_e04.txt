@@ -1,0 +1,33 @@
+
+=== Which gene is mutated is cystic fibrosis? ===
+     RRF  densa  lexical  frase
+ 0.03279   Mutations in the CFTR gene cause cystic fibrosis.
+ 0.03200   CFTR mutations do not cause cystic fibrosis.
+ 0.03175   Mutações no gene CFTR causam fibrose quística.
+ 0.03150   Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+ 0.03054   BRCA1 mutations increase the risk of breast cancer.
+ 0.03054   BRCA2 mutations increase the risk of breast cancer.
+ 0.01493   The Krebs cycle produces NADH in the mitochondrial matrix.
+ 0.01471   The football match ended in a draw.
+
+=== BRCA1 breast cancer risk ===
+     RRF  densa  lexical  frase
+ 0.03279   BRCA1 mutations increase the risk of breast cancer.
+ 0.03226   BRCA2 mutations increase the risk of breast cancer.
+ 0.01587   Mutations in the CFTR gene cause cystic fibrosis.
+ 0.01562   Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+ 0.01538   Mutações no gene CFTR causam fibrose quística.
+ 0.01515   The Krebs cycle produces NADH in the mitochondrial matrix.
+ 0.01493   CFTR mutations do not cause cystic fibrosis.
+ 0.01471   The football match ended in a draw.
+
+=== BRC1 breast cancer risk ===
+     RRF  densa  lexical  frase
+ 0.03279   BRCA1 mutations increase the risk of breast cancer.
+ 0.03226   BRCA2 mutations increase the risk of breast cancer.
+ 0.01587   Mutations in the CFTR gene cause cystic fibrosis.
+ 0.01562   Cystic fibrosis results from defects in a chloride channel encoded by CFTR.
+ 0.01538   Mutações no gene CFTR causam fibrose quística.
+ 0.01515   The Krebs cycle produces NADH in the mitochondrial matrix.
+ 0.01493   CFTR mutations do not cause cystic fibrosis.
+ 0.01471   The football match ended in a draw.
