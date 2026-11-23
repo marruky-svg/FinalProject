@@ -135,5 +135,6 @@ Os testes de integração correm num esquema temporário dentro de uma transaç�
 
 - **O `esearch` devolve no máximo 10 000 PMIDs por pesquisa.** Para mais distratores, é preciso dividir a pesquisa (por exemplo, por intervalos de anos).
 - **Um artigo que perde o resumo entre dois downloads mantém os chunks antigos.** O `replace_chunks` só substitui chunks de artigos que ainda geram chunks. É um caso raro, e uma recarga completa resolve-o.
+- **Os ids dos chunks são estáveis.** O `replace_chunks` atualiza cada chunk no mesmo sítio (chave `pmid, unit, ordinal`), em vez de apagar e reinserir. Assim, repetir o `load` não apaga os embeddings. A razão está em `docs/INDEXACAO.md`.
 - **O store não deteta artigos alterados na NCBI depois de descarregados.** Para atualizar, apaga-se o `articles.jsonl` e repete-se o `fetch`.
 - **Sem registo das tarefas na base de dados (tabela `job`, RF-26).** O progresso aparece só no terminal. A tabela entra com a API, quando houver tarefas em segundo plano.

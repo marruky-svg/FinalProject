@@ -1,46 +1,11 @@
-"""Testes de integração com o PostgreSQL real (o do Docker).
-
-Correm num esquema temporário, dentro de uma transação desfeita no fim, por
-isso não tocam nos dados do projeto. Se a base de dados não estiver acessível, são saltados.
-"""
-
-import os
-import uuid
+"""Testes de integração da ingestão (a ligação vem de conftest.py)."""
 
 import pytest
 
 from helixrag.ingest.models import AbstractSection, Article, Chunk
 
-psycopg = pytest.importorskip("psycopg")
+pytest.importorskip("psycopg")
 pytestmark = pytest.mark.integration
-
-
-@pytest.fixture
-def conn():
-    from dotenv import load_dotenv
-
-    load_dotenv()
-    url = os.getenv("DATABASE_URL")
-    if not url:
-        pytest.skip("DATABASE_URL não definido")
-    try:
-        connection = psycopg.connect(url, connect_timeout=3)
-    except psycopg.OperationalError as error:
-        pytest.skip(f"base de dados inacessível: {error}")
-
-    # Tudo acontece dentro de uma única transação que nunca é confirmada:
-    # o rollback final apaga o esquema temporário e tudo o que lá foi criado.
-    schema = f"test_{uuid.uuid4().hex[:8]}"
-    connection.execute(f'CREATE SCHEMA "{schema}"')
-    connection.execute(f'SET LOCAL search_path TO "{schema}"')
-    try:
-        from helixrag.db.repository import apply_schema
-
-        apply_schema(connection)
-        yield connection
-    finally:
-        connection.rollback()
-        connection.close()
 
 
 def article(pmid, title="T"):
@@ -73,3 +38,31 @@ def test_replace_chunks_and_lexical_column(conn):
     rows = conn.execute("SELECT ordinal, tsv @@ plainto_tsquery('english', 'mutation') FROM chunk").fetchall()
     assert rows == [(0, True)]
     assert corpus_stats(conn)["chunks"] == {"section": 1}
+
+
+def test_reload_keeps_chunk_ids_and_only_updates_changed_text(conn):
+    from helixrag.db.repository import replace_chunks, upsert_articles
+
+    upsert_articles(conn, [article("1")], origin="test")
+    first = [Chunk("1", "section", 0, "A", "CFTR mutations"), Chunk("1", "section", 1, "B", "chloride channel")]
+    replace_chunks(conn, first, unit="section")
+    ids_before = dict(conn.execute("SELECT ordinal, id FROM chunk").fetchall())
+
+    changed = [first[0], Chunk("1", "section", 1, "B", "chloride channel defect")]
+    replace_chunks(conn, changed, unit="section")
+    rows = conn.execute("SELECT ordinal, id, content FROM chunk ORDER BY ordinal").fetchall()
+    assert [(o, i) for o, i, _ in rows] == sorted(ids_before.items())
+    assert rows[1][2] == "chloride channel defect"
+
+
+def test_units_are_independent(conn):
+    from helixrag.db.repository import replace_chunks, upsert_articles
+
+    upsert_articles(conn, [article("1")], origin="test")
+    replace_chunks(conn, [Chunk("1", "full", 0, None, "T\nall")], unit="full")
+    replace_chunks(conn, [Chunk("1", "section", 0, "A", "a"), Chunk("1", "section", 1, "B", "b")], unit="section")
+    replace_chunks(conn, [Chunk("1", "section", 0, "A", "a")], unit="section")
+    assert conn.execute("SELECT unit, count(*) FROM chunk GROUP BY unit ORDER BY unit").fetchall() == [
+        ("full", 1),
+        ("section", 1),
+    ]

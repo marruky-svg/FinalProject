@@ -66,20 +66,40 @@ def upsert_articles(conn: psycopg.Connection, articles: list[Article], origin: s
 
 
 def replace_chunks(conn: psycopg.Connection, chunks: list[Chunk], unit: str) -> int:
-    """Substitui os chunks de uma unidade para os artigos envolvidos.
+    """Atualiza os chunks de uma unidade para os artigos envolvidos, mantendo os ids.
 
-    Apagar e reinserir (em vez de atualizar) garante que não ficam chunks
-    antigos para trás quando um artigo passa a ter menos secções.
+    Cada chunk é identificado por (pmid, unidade, ordem). Um chunk que já existe
+    é atualizado no mesmo sítio, e só se o texto mudou; os chunks a mais (um
+    artigo que passou a ter menos secções) são apagados.
+
+    Manter os ids importa por causa dos embeddings, que apontam para chunk.id.
+    Apagar e reinserir, como na primeira versão, dava ids novos a cada carga,
+    e o ON DELETE CASCADE apagava todos os vetores: repetir um `load` custava
+    horas de embeddings outra vez.
     """
-    pmids = sorted({c.pmid for c in chunks})
+    counts: dict[str, int] = {}
+    for c in chunks:
+        counts[c.pmid] = counts.get(c.pmid, 0) + 1
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM chunk WHERE unit = %s AND pmid = ANY(%s)", (unit, pmids))
         cur.executemany(
             """
             INSERT INTO chunk (pmid, unit, ordinal, section_label, content)
             VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (pmid, unit, ordinal) DO UPDATE SET
+                section_label = EXCLUDED.section_label,
+                content = EXCLUDED.content
+            WHERE chunk.content IS DISTINCT FROM EXCLUDED.content
+               OR chunk.section_label IS DISTINCT FROM EXCLUDED.section_label
             """,
             [(c.pmid, c.unit, c.ordinal, c.section_label, c.text) for c in chunks],
+        )
+        cur.execute(
+            """
+            DELETE FROM chunk c
+            USING unnest(%s::text[], %s::int[]) AS k(pmid, n)
+            WHERE c.unit = %s AND c.pmid = k.pmid AND c.ordinal >= k.n
+            """,
+            (list(counts), list(counts.values()), unit),
         )
     return len(chunks)
 

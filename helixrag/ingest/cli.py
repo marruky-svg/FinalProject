@@ -112,7 +112,10 @@ def cmd_load(args: argparse.Namespace, settings: Settings) -> int:
     articles = [a for a in ArticleStore(args.store) if a.pmid in wanted]
     absent = len(wanted) - len({a.pmid for a in articles})
     if absent:
-        log.warning("%d PMIDs da lista não estão no store; corre primeiro o fetch", absent)
+        log.warning(
+            "%d PMIDs da lista não estão no store: corre o fetch, ou vê %s se o fetch já correu",
+            absent, MISSING_FILE,
+        )
 
     chunks = [c for a in articles for c in chunk_article(a, args.unit)]
     with psycopg.connect(settings.require_database_url()) as conn:
