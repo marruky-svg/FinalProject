@@ -1,0 +1,12 @@
+# Segredos (RNF-07)
+.env
+
+# Dados descarregados: resumos do PubMed e BioASQ não são redistribuídos (RNF-10)
+data/
+
+# Ambiente e ficheiros gerados
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store

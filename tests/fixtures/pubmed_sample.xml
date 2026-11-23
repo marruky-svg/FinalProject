@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Registos de exemplo escritos à mão, com a estrutura do efetch (retmode=xml).
+     Cobrem: resumo estruturado com marcação interna, resumo de um só bloco com
+     data em MedlineDate, artigo sem resumo, e um registo de livro a ignorar. -->
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">10000001</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue CitedMedium="Internet">
+            <PubDate><Year>2021</Year><Month>Mar</Month></PubDate>
+          </JournalIssue>
+          <Title>Journal of Example Genetics</Title>
+        </Journal>
+        <ArticleTitle>Mutations in the <i>CFTR</i> gene and chloride transport.</ArticleTitle>
+        <Abstract>
+          <AbstractText Label="BACKGROUND" NlmCategory="BACKGROUND">Cystic fibrosis is caused by <i>CFTR</i> mutations.</AbstractText>
+          <AbstractText Label="METHODS" NlmCategory="METHODS">We measured
+            chloride   transport in 40 patients.</AbstractText>
+          <AbstractText Label="RESULTS" NlmCategory="RESULTS">Transport was reduced by 60%.</AbstractText>
+        </Abstract>
+      </Article>
+      <MeshHeadingList>
+        <MeshHeading><DescriptorName UI="D003550">Cystic Fibrosis</DescriptorName></MeshHeading>
+        <MeshHeading><DescriptorName UI="D019005">Cystic Fibrosis Transmembrane Conductance Regulator</DescriptorName></MeshHeading>
+      </MeshHeadingList>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">10000002</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue CitedMedium="Print">
+            <PubDate><MedlineDate>2019 Jan-Feb</MedlineDate></PubDate>
+          </JournalIssue>
+          <Title>Example Biochemistry Reports</Title>
+        </Journal>
+        <ArticleTitle>The Krebs cycle revisited.</ArticleTitle>
+        <Abstract>
+          <AbstractText>The Krebs cycle produces NADH in the mitochondrial matrix.</AbstractText>
+        </Abstract>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">10000003</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue CitedMedium="Print"><PubDate><Season>Winter</Season></PubDate></JournalIssue>
+          <Title>Letters in Examples</Title>
+        </Journal>
+        <ArticleTitle>A letter without an abstract.</ArticleTitle>
+        <ArticleDate DateType="Electronic"><Year>2020</Year><Month>05</Month><Day>01</Day></ArticleDate>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedBookArticle>
+    <BookDocument>
+      <PMID Version="1">10000004</PMID>
+      <ArticleTitle>A book chapter that must be ignored.</ArticleTitle>
+    </BookDocument>
+  </PubmedBookArticle>
+</PubmedArticleSet>

@@ -1,0 +1,15 @@
+[project]
+name = "helixrag"
+version = "0.1.0"
+description = "RAG sobre resumos do PubMed, avaliado com o BioASQ (projeto final CET TPSI)"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: testes que precisam do PostgreSQL do Docker",
+]
+
+[tool.setuptools.package-data]
+"helixrag.db" = ["schema.sql"]

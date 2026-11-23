@@ -1,0 +1,30 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "type": "factoid",
+      "body": "Which gene is mutated in cystic fibrosis?",
+      "documents": [
+        "http://www.ncbi.nlm.nih.gov/pubmed/10000001",
+        "http://www.ncbi.nlm.nih.gov/pubmed/10000005/",
+        "http://www.ncbi.nlm.nih.gov/pubmed/10000001"
+      ],
+      "ideal_answer": ["The CFTR gene is mutated in cystic fibrosis."],
+      "exact_answer": [["CFTR"]]
+    },
+    {
+      "id": "q2",
+      "type": "yesno",
+      "body": "Does the Krebs cycle produce NADH?",
+      "documents": ["https://pubmed.ncbi.nlm.nih.gov/10000002"],
+      "ideal_answer": "Yes, the Krebs cycle produces NADH.",
+      "exact_answer": "yes"
+    },
+    {
+      "id": "q3",
+      "type": "summary",
+      "body": "What is known about an unindexed topic?",
+      "documents": ["not-a-pubmed-url"]
+    }
+  ]
+}
